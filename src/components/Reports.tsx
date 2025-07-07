@@ -1,4 +1,6 @@
 
+import { FileText } from 'lucide-react';
+
 export function Reports() {
   return (
     <div className="space-y-6">

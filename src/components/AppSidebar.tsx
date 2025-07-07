@@ -28,7 +28,8 @@ const navigationItems = [
 ];
 
 export function AppSidebar({ activeTab, onTabChange }: AppSidebarProps) {
-  const { collapsed } = useSidebar();
+  const { state } = useSidebar();
+  const collapsed = state === 'collapsed';
 
   return (
     <Sidebar className={`${collapsed ? 'w-14' : 'w-64'} bg-navy-800 border-r border-navy-700`}>

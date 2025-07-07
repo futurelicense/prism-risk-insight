@@ -1,4 +1,6 @@
 
+import { BarChart } from 'lucide-react';
+
 export function PredictiveInsights() {
   return (
     <div className="space-y-6">

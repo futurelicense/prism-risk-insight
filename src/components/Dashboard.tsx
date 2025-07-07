@@ -35,7 +35,7 @@ const Dashboard = () => {
   };
 
   return (
-    <SidebarProvider collapsedWidth={56}>
+    <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gray-50">
         <AppSidebar activeTab={activeTab} onTabChange={setActiveTab} />
         
