@@ -1,0 +1,11 @@
+Risk ID,Risk Category,Risk Description,Probability,Impact,Severity Level,Project Name,Department,Status,Mitigation Strategy,Owner,Date Identified,Due Date
+R001,Operational,Server downtime due to hardware failure,Medium,High,Critical,Project Alpha,IT Infrastructure,Open,Implement redundant servers,John Smith,2024-01-15,2024-02-15
+R002,Financial,Budget overrun on marketing campaign,High,Medium,High,Campaign Beta,Marketing,In Progress,Weekly budget reviews,Sarah Johnson,2024-01-20,2024-03-01
+R003,Compliance,Data privacy regulation changes,Low,High,Medium,Customer Portal,Legal,Open,Legal compliance audit,Michael Brown,2024-01-25,2024-04-01
+R004,Technical,Legacy system integration failure,Medium,Medium,Medium,System Migration,IT Development,Closed,API gateway implementation,Lisa Davis,2024-01-10,2024-02-10
+R005,Operational,Key personnel departure,High,High,Critical,Project Gamma,Human Resources,Open,Knowledge transfer documentation,Robert Wilson,2024-02-01,2024-03-15
+R006,Security,Cybersecurity threat to customer data,Medium,Critical,Critical,Data Platform,Security,In Progress,Enhanced encryption protocols,Amanda Miller,2024-02-05,2024-03-01
+R007,Financial,Currency exchange rate fluctuation,Low,Medium,Low,International Expansion,Finance,Open,Hedge financial exposure,David Taylor,2024-02-10,2024-05-01
+R008,Operational,Supply chain disruption,Medium,High,High,Manufacturing,Operations,Open,Diversify supplier base,Jennifer Anderson,2024-02-15,2024-04-01
+R009,Technical,Software vulnerability in core system,High,Critical,Critical,Core Platform,IT Security,In Progress,Security patches and updates,Chris Thompson,2024-02-20,2024-03-15
+R010,Compliance,Regulatory audit findings,Medium,Medium,Medium,Compliance Program,Legal,Open,Remediation action plan,Maria Garcia,2024-02-25,2024-04-15

@@ -1,6 +1,6 @@
 
 import { useState, useCallback } from 'react';
-import { Upload, FileText, CheckCircle, XCircle } from 'lucide-react';
+import { Upload, FileText, CheckCircle, XCircle, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface UploadedFile {
@@ -90,9 +90,17 @@ export function CSVUploadModule() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold text-navy-800">CSV Data Upload</h1>
-        <p className="text-gray-600 mt-1">Upload your risk management data for analysis</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-navy-800">CSV Data Upload</h1>
+          <p className="text-gray-600 mt-1">Upload your risk management data for analysis</p>
+        </div>
+        <Button variant="outline" asChild>
+          <a href="/sample-risk-data.csv" download className="flex items-center gap-2">
+            <Download className="h-4 w-4" />
+            Download Sample CSV
+          </a>
+        </Button>
       </div>
 
       {/* Upload Zone */}
