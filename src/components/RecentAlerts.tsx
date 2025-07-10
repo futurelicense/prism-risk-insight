@@ -1,42 +1,64 @@
 
 import { Bell, AlertTriangle, AlertCircle, Info } from 'lucide-react';
-
-const alerts = [
-  {
-    id: 1,
-    type: 'high',
-    title: 'Critical Security Breach',
-    description: 'Unauthorized access detected in Project Alpha',
-    time: '2 minutes ago',
-    icon: AlertTriangle
-  },
-  {
-    id: 2,
-    type: 'medium',
-    title: 'Budget Variance Alert',
-    description: 'Project Beta exceeds budget threshold by 15%',
-    time: '1 hour ago',
-    icon: AlertCircle
-  },
-  {
-    id: 3,
-    type: 'low',
-    title: 'Compliance Review Due',
-    description: 'Quarterly review scheduled for next week',
-    time: '3 hours ago',
-    icon: Info
-  },
-  {
-    id: 4,
-    type: 'medium',
-    title: 'System Performance',
-    description: 'Response time degradation in monitoring system',
-    time: '1 day ago',
-    icon: AlertCircle
-  }
-];
+import { useData } from '@/context/DataContext';
 
 export function RecentAlerts() {
+  const { riskData, isDataLoaded } = useData();
+
+  const generateAlerts = () => {
+    if (!isDataLoaded || riskData.length === 0) {
+      return [
+        {
+          id: 1,
+          type: 'high',
+          title: 'Critical Security Breach',
+          description: 'Unauthorized access detected in Project Alpha',
+          time: '2 minutes ago',
+          icon: AlertTriangle
+        },
+        {
+          id: 2,
+          type: 'medium',
+          title: 'Budget Variance Alert',
+          description: 'Project Beta exceeds budget threshold by 15%',
+          time: '1 hour ago',
+          icon: AlertCircle
+        },
+        {
+          id: 3,
+          type: 'low',
+          title: 'Compliance Review Due',
+          description: 'Quarterly review scheduled for next week',
+          time: '3 hours ago',
+          icon: Info
+        },
+        {
+          id: 4,
+          type: 'medium',
+          title: 'System Performance',
+          description: 'Response time degradation in monitoring system',
+          time: '1 day ago',
+          icon: AlertCircle
+        }
+      ];
+    }
+
+    return riskData
+      .filter(risk => risk.status === 'Open' || risk.status === 'In Progress')
+      .slice(0, 4)
+      .map((risk, index) => ({
+        id: index + 1,
+        type: risk.severityLevel === 'Critical' ? 'high' : 
+              risk.severityLevel === 'High' ? 'medium' : 'low',
+        title: `${risk.riskCategory} Risk`,
+        description: risk.riskDescription,
+        time: risk.dateIdentified,
+        icon: risk.severityLevel === 'Critical' ? AlertTriangle : 
+              risk.severityLevel === 'High' ? AlertCircle : Info
+      }));
+  };
+
+  const alerts = generateAlerts();
   const getAlertStyle = (type: string) => {
     switch (type) {
       case 'high':

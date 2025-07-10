@@ -1,16 +1,46 @@
 
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-
-const data = [
-  { month: 'Jan', highRisk: 12, mediumRisk: 25, lowRisk: 8 },
-  { month: 'Feb', highRisk: 15, mediumRisk: 22, lowRisk: 12 },
-  { month: 'Mar', highRisk: 8, mediumRisk: 28, lowRisk: 15 },
-  { month: 'Apr', highRisk: 18, mediumRisk: 24, lowRisk: 10 },
-  { month: 'May', highRisk: 14, mediumRisk: 30, lowRisk: 18 },
-  { month: 'Jun', highRisk: 23, mediumRisk: 26, lowRisk: 14 }
-];
+import { useData } from '@/context/DataContext';
 
 export function RiskTrendsChart() {
+  const { riskData, isDataLoaded } = useData();
+
+  const generateData = () => {
+    if (!isDataLoaded || riskData.length === 0) {
+      return [
+        { month: 'Jan', highRisk: 12, mediumRisk: 25, lowRisk: 8 },
+        { month: 'Feb', highRisk: 15, mediumRisk: 22, lowRisk: 12 },
+        { month: 'Mar', highRisk: 8, mediumRisk: 28, lowRisk: 15 },
+        { month: 'Apr', highRisk: 18, mediumRisk: 24, lowRisk: 10 },
+        { month: 'May', highRisk: 14, mediumRisk: 30, lowRisk: 18 },
+        { month: 'Jun', highRisk: 23, mediumRisk: 26, lowRisk: 14 }
+      ];
+    }
+
+    // Group risks by month and severity
+    const monthData = riskData.reduce((acc, risk) => {
+      const date = new Date(risk.dateIdentified);
+      const monthKey = date.toLocaleDateString('en-US', { month: 'short' });
+      
+      if (!acc[monthKey]) {
+        acc[monthKey] = { month: monthKey, highRisk: 0, mediumRisk: 0, lowRisk: 0 };
+      }
+      
+      if (risk.severityLevel === 'Critical' || risk.severityLevel === 'High') {
+        acc[monthKey].highRisk++;
+      } else if (risk.severityLevel === 'Medium') {
+        acc[monthKey].mediumRisk++;
+      } else {
+        acc[monthKey].lowRisk++;
+      }
+      
+      return acc;
+    }, {} as Record<string, any>);
+
+    return Object.values(monthData);
+  };
+
+  const data = generateData();
   return (
     <div className="prism-card p-6">
       <div className="mb-4">

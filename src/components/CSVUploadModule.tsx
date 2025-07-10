@@ -2,6 +2,7 @@
 import { useState, useCallback } from 'react';
 import { Upload, FileText, CheckCircle, XCircle, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useData, RiskData } from '@/context/DataContext';
 
 interface UploadedFile {
   name: string;
@@ -13,6 +14,7 @@ interface UploadedFile {
 export function CSVUploadModule() {
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const [isDragOver, setIsDragOver] = useState(false);
+  const { setRiskData } = useData();
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -49,29 +51,59 @@ export function CSVUploadModule() {
 
         setUploadedFiles(prev => [...prev, newFile]);
 
-        // Simulate file processing
+        // Process CSV file
         setTimeout(() => {
           const reader = new FileReader();
           reader.onload = (e) => {
             const text = e.target?.result as string;
-            const lines = text.split('\n').slice(0, 5); // First 5 rows for preview
-            const preview = lines.map(line => {
-              const values = line.split(',');
-              return {
-                col1: values[0] || '',
-                col2: values[1] || '',
-                col3: values[2] || '',
-                col4: values[3] || ''
-              };
-            });
+            const lines = text.split('\n').filter(line => line.trim());
+            
+            if (lines.length > 0) {
+              const headers = lines[0].split(',');
+              const dataRows = lines.slice(1);
+              
+              // Parse CSV data into RiskData format
+              const riskData: RiskData[] = dataRows.map(row => {
+                const values = row.split(',');
+                return {
+                  riskId: values[0] || '',
+                  riskCategory: values[1] || '',
+                  riskDescription: values[2] || '',
+                  probability: values[3] || '',
+                  impact: values[4] || '',
+                  severityLevel: values[5] || '',
+                  projectName: values[6] || '',
+                  department: values[7] || '',
+                  status: values[8] || '',
+                  mitigationStrategy: values[9] || '',
+                  owner: values[10] || '',
+                  dateIdentified: values[11] || '',
+                  dueDate: values[12] || ''
+                };
+              });
 
-            setUploadedFiles(prev => 
-              prev.map(f => 
-                f.name === file.name 
-                  ? { ...f, status: 'success', preview }
-                  : f
-              )
-            );
+              // Update data context
+              setRiskData(riskData);
+
+              // Create preview for table display
+              const preview = lines.slice(0, 5).map(line => {
+                const values = line.split(',');
+                return {
+                  col1: values[0] || '',
+                  col2: values[1] || '',
+                  col3: values[2] || '',
+                  col4: values[3] || ''
+                };
+              });
+
+              setUploadedFiles(prev => 
+                prev.map(f => 
+                  f.name === file.name 
+                    ? { ...f, status: 'success', preview }
+                    : f
+                )
+              );
+            }
           };
           reader.readAsText(file);
         }, 2000);

@@ -1,11 +1,36 @@
 
 import { TrendingUp, TrendingDown, Clock, DollarSign } from 'lucide-react';
+import { useData } from '@/context/DataContext';
 
 export function KPIMetrics() {
+  const { riskData, isDataLoaded } = useData();
+
+  const calculateKPIs = () => {
+    if (!isDataLoaded || riskData.length === 0) {
+      return {
+        riskDetectionAccuracy: 87,
+        mitigationTime: 12,
+        budgetImpact: 8.5
+      };
+    }
+
+    const totalRisks = riskData.length;
+    const closedRisks = riskData.filter(r => r.status === 'Closed').length;
+    const highSeverityRisks = riskData.filter(r => r.severityLevel === 'Critical' || r.severityLevel === 'High').length;
+    
+    return {
+      riskDetectionAccuracy: Math.round((closedRisks / totalRisks) * 100),
+      mitigationTime: Math.round(totalRisks * 0.8), // Simplified calculation
+      budgetImpact: Math.round(highSeverityRisks * 2.5) // Simplified calculation
+    };
+  };
+
+  const kpis = calculateKPIs();
+  
   const metrics = [
     {
       title: 'Risk Detection Accuracy',
-      value: '94.7%',
+      value: `${kpis.riskDetectionAccuracy}%`,
       change: '+2.3%',
       trend: 'up',
       icon: TrendingUp,
@@ -13,7 +38,7 @@ export function KPIMetrics() {
     },
     {
       title: 'Avg. Mitigation Time',
-      value: '3.2 days',
+      value: `${kpis.mitigationTime} days`,
       change: '-0.8 days',
       trend: 'down',
       icon: Clock,
@@ -21,7 +46,7 @@ export function KPIMetrics() {
     },
     {
       title: 'Budget Impact',
-      value: '$2.4M',
+      value: `${kpis.budgetImpact}%`,
       change: '-12.3%',
       trend: 'down',
       icon: DollarSign,
@@ -29,7 +54,7 @@ export function KPIMetrics() {
     },
     {
       title: 'Active Risk Events',
-      value: '23',
+      value: `${riskData.filter(r => r.status === 'Open' || r.status === 'In Progress').length}`,
       change: '+5',
       trend: 'up',
       icon: TrendingUp,

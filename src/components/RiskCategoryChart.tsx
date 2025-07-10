@@ -1,16 +1,36 @@
 
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-
-const data = [
-  { category: 'Cybersecurity', count: 45, severity: 'high' },
-  { category: 'Operational', count: 32, severity: 'medium' },
-  { category: 'Financial', count: 28, severity: 'high' },
-  { category: 'Compliance', count: 22, severity: 'medium' },
-  { category: 'Strategic', count: 18, severity: 'low' },
-  { category: 'Reputational', count: 15, severity: 'medium' }
-];
+import { useData } from '@/context/DataContext';
 
 export function RiskCategoryChart() {
+  const { riskData, isDataLoaded } = useData();
+
+  const generateData = () => {
+    if (!isDataLoaded || riskData.length === 0) {
+      return [
+        { category: 'Cybersecurity', count: 45, severity: 'high' },
+        { category: 'Operational', count: 32, severity: 'medium' },
+        { category: 'Financial', count: 28, severity: 'high' },
+        { category: 'Compliance', count: 22, severity: 'medium' },
+        { category: 'Strategic', count: 18, severity: 'low' },
+        { category: 'Reputational', count: 15, severity: 'medium' }
+      ];
+    }
+
+    const categoryCount = riskData.reduce((acc, risk) => {
+      const category = risk.riskCategory;
+      acc[category] = (acc[category] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+
+    return Object.entries(categoryCount).map(([category, count]) => ({
+      category,
+      count,
+      severity: count > 2 ? 'high' : count > 1 ? 'medium' : 'low'
+    }));
+  };
+
+  const data = generateData();
   return (
     <div className="prism-card p-6">
       <div className="mb-4">
