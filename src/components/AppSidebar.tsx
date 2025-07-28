@@ -80,7 +80,7 @@ export function AppSidebar({ activeTab, onTabChange }: AppSidebarProps) {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-white text-sm font-medium truncate">Admin User</p>
-                <p className="text-navy-300 text-xs truncate">Federal Agency</p>
+                <p className="text-navy-300 text-xs truncate"></p>
               </div>
             </div>
           ) : (
