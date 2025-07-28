@@ -13,7 +13,7 @@ import { Settings } from '@/components/Settings';
 type ActiveTab = 'dashboard' | 'upload' | 'insights' | 'alerts' | 'reports' | 'settings';
 
 const Dashboard = () => {
-  const [activeTab, setActiveTab] = useState<ActiveTab>('dashboard');
+  const [activeTab, setActiveTab] = useState<ActiveTab>('alerts');
 
   const renderActiveComponent = () => {
     switch (activeTab) {
