@@ -18,7 +18,7 @@ const Dashboard = () => {
   const renderActiveComponent = () => {
     switch (activeTab) {
       case 'dashboard':
-        return <DashboardOverview />;
+        return <DashboardOverview onNavigate={setActiveTab} />;
       case 'upload':
         return <CSVUploadModule />;
       case 'insights':

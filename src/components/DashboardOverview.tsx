@@ -8,7 +8,11 @@ import { Activity, TrendingUp, Shield, AlertTriangle, Clock, Calendar } from 'lu
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 
-export function DashboardOverview() {
+interface DashboardOverviewProps {
+  onNavigate?: (tab: 'dashboard' | 'upload' | 'insights' | 'alerts' | 'reports' | 'settings') => void;
+}
+
+export function DashboardOverview({ onNavigate }: DashboardOverviewProps) {
   const currentDate = new Date();
   const formattedDate = currentDate.toLocaleDateString('en-US', {
     weekday: 'long',
@@ -60,11 +64,18 @@ export function DashboardOverview() {
 
       {/* Quick Action Bar */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Button className="h-16 bg-gradient-primary hover:scale-105 transition-all duration-300 text-white border-0 rounded-2xl shadow-lg">
+        <Button 
+          onClick={() => onNavigate?.('reports')}
+          className="h-16 bg-gradient-primary hover:scale-105 transition-all duration-300 text-white border-0 rounded-2xl shadow-lg"
+        >
           <TrendingUp className="h-5 w-5 mr-2" />
           Generate Report
         </Button>
-        <Button variant="outline" className="h-16 hover:scale-105 transition-all duration-300 rounded-2xl bg-glass backdrop-blur-sm border-white/20">
+        <Button 
+          onClick={() => onNavigate?.('insights')}
+          variant="outline" 
+          className="h-16 hover:scale-105 transition-all duration-300 rounded-2xl bg-glass backdrop-blur-sm border-white/20"
+        >
           <Shield className="h-5 w-5 mr-2" />
           Risk Assessment
         </Button>
